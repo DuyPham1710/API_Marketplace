@@ -8,9 +8,8 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ResetPasswordRequest {
-    String email;
-//    String otp;
-    String newPassword;
-    String confirmPassword;
+public class CartRequest {
+    int buyerId;
+    int productId;
+    int quantity;
 }

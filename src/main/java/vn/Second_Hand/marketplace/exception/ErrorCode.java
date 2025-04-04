@@ -13,7 +13,10 @@ public enum ErrorCode {
     OTP_INVALID_OR_EXPIRED(1008, "OTP is invalid or has expired. Please regenerate a new OTP and try again."),
     ACOUNT_NOT_ACTIVATED(1009, "Your account is not activated. Please verify your email to activate your account"),
     USER_EXISTED(1010, "User already exists"),
-    INVALID_MESSAGE(1111, "Invalid message")
+    INVALID_MESSAGE(1111, "Invalid message"),
+    PRODUCT_NOT_FOUND(1112, "Product not found"),
+    CART_NOT_FOUND(1113, "Cart item not found"),
+    NOT_MATCH_PASSWORD(1114, "Password and confirm password do not match. Please try again!")
     ;
 
     ErrorCode(int code, String message) {

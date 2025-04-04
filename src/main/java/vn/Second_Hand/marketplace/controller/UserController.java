@@ -20,18 +20,26 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
+@RequestMapping("/users")
 public class UserController {
     IUserService userService;
 
-    @GetMapping("/users")
+    @GetMapping
     public ApiResponse<List<UserResponse>> getAllUser() {
-        var auth = SecurityContextHolder.getContext().getAuthentication();
-        log.info("Username: {}", auth.getName());
-        auth.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
+//        var auth = SecurityContextHolder.getContext().getAuthentication();
+//        log.info("Username: {}", auth.getName());
+//        auth.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
 
         return ApiResponse.<List<UserResponse>>builder()
                 .message("Categories")
                 .data(userService.getAllUser())
+                .build();
+    }
+    @PutMapping("/{userid}")
+    public ApiResponse<UserResponse> updateUser(@PathVariable int userid, @RequestBody UserUpdateRequest req) {
+        return ApiResponse.<UserResponse>builder()
+                .message("updated successfully!")
+                .data(userService.updateUser(userid, req))
                 .build();
     }
 }

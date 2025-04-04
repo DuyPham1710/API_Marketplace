@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import vn.Second_Hand.marketplace.dto.requests.LoginRequest;
-import vn.Second_Hand.marketplace.dto.requests.RegisterRequest;
-import vn.Second_Hand.marketplace.dto.requests.ResetPasswordRequest;
-import vn.Second_Hand.marketplace.dto.requests.VerifyAccountRequest;
+import vn.Second_Hand.marketplace.dto.requests.*;
 import vn.Second_Hand.marketplace.dto.responses.ApiResponse;
 import vn.Second_Hand.marketplace.dto.responses.UserResponse;
 import vn.Second_Hand.marketplace.entity.User;
@@ -45,7 +42,7 @@ public class UserServiceImpl implements IUserService {
         if (user.getOtp().equals(request.getOtp()) && Duration.between(user.getOtpGenaratedTime(), LocalDateTime.now()).getSeconds() < 60) {
             user.setIsActive(true);
             userRepository.save(user);
-            return "OTP verified, you can login";
+            return "OTP verified";
         }
         throw new AppException(ErrorCode.OTP_INVALID_OR_EXPIRED);
     }
@@ -71,17 +68,25 @@ public class UserServiceImpl implements IUserService {
     public String resetPassword(ResetPasswordRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
-
-        if (user.getOtp().equals(request.getOtp()) && Duration.between(user.getOtpGenaratedTime(), LocalDateTime.now()).getSeconds() < 60) {
+//
+//        if (user.getOtp().equals(request.getOtp()) && Duration.between(user.getOtpGenaratedTime(), LocalDateTime.now()).getSeconds() < 60) {
+        if (request.getNewPassword().equals(request.getConfirmPassword())){
             user.setPassword(passwordEncoder.encode(request.getNewPassword()));
 
             userRepository.save(user);
             return "Password has been successfully reset for email: " + request.getEmail();
         }
-        throw new AppException(ErrorCode.OTP_INVALID_OR_EXPIRED);
+       // throw new AppException(ErrorCode.OTP_INVALID_OR_EXPIRED);
+        throw new AppException(ErrorCode.NOT_MATCH_PASSWORD);
     }
 
     public List<UserResponse> getAllUser() {
         return userMapper.toUserResponse(userRepository.findAll());
+    }
+
+    public UserResponse updateUser(int userId, UserUpdateRequest updatedUser) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        userMapper.updateUser(updatedUser, user);
+        return userMapper.toUserResponse(userRepository.save(user));
     }
 }
