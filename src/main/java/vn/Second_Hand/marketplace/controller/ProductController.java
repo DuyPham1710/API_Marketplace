@@ -19,7 +19,6 @@ import vn.Second_Hand.marketplace.service.IProductService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/marketplace")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductController {
