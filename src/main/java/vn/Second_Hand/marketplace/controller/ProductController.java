@@ -6,10 +6,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import vn.Second_Hand.marketplace.dto.responses.ApiResponse;
 import vn.Second_Hand.marketplace.entity.Category;
 import vn.Second_Hand.marketplace.entity.Product;
@@ -24,6 +21,21 @@ import java.util.List;
 public class ProductController {
     IProductService productService;
     ICategoryService categoryService;
+
+
+    @GetMapping("/products/search")
+    public ApiResponse<?> searchProducts(@RequestParam String keyword) {
+        List<Product> products = productService.searchProductsByName(keyword);
+        if (products.isEmpty()) {
+            return ApiResponse.builder()
+                    .message("Không tìm thấy sản phẩm")
+                    .build();
+        }
+        return ApiResponse.builder()
+                .message("Kết quả tìm kiếm")
+                .data(products)
+                .build();
+    }
 
     @GetMapping("/categories")
     public ApiResponse<?> getAllCategories() {

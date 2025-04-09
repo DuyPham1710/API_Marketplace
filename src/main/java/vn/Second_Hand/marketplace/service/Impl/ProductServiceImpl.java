@@ -36,6 +36,11 @@ public class ProductServiceImpl implements IProductService {
         Date sevenDaysAgo = calendar.getTime();
         return productRepository.findProductsCreatedLast7Days(sevenDaysAgo);
     }
+    @Override
+    public List<Product> searchProductsByName(String keyword) {
+        return productRepository.searchByName(keyword);
+    }
+
 
 
 }
