@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.Second_Hand.marketplace.dto.responses.ApiResponse;
+import vn.Second_Hand.marketplace.dto.responses.ProductResponse;
 import vn.Second_Hand.marketplace.entity.Category;
 import vn.Second_Hand.marketplace.entity.Product;
 import vn.Second_Hand.marketplace.service.ICategoryService;
@@ -22,6 +23,14 @@ public class ProductController {
     IProductService productService;
     ICategoryService categoryService;
 
+    @GetMapping("/products/{id}")
+    public ApiResponse<ProductResponse> getProductDetails(@PathVariable("id") int id) {
+        ProductResponse response = productService.getProductWithImages(id);
+        return ApiResponse.<ProductResponse>builder()
+                .message("Product Detail with id = " + id)
+                .data(response)
+                .build();
+    }
 
     @GetMapping("/products/search")
     public ApiResponse<?> searchProducts(@RequestParam String keyword) {

@@ -26,7 +26,10 @@ INSERT INTO product (product_id, owner_id, product_name, category_id, original_p
 -- Thêm hình ảnh sản phẩm
 INSERT INTO product_image (image_id, product_id, initial_image, current_image) VALUES
 (1, 101, 'iphone13_initial.jpg', 'iphone13_current.jpg'),
-(2, 102, 'macbook_initial.jpg', 'macbook_current.jpg');
+(2, 102, 'macbook_initial.jpg', 'macbook_current.jpg'),
+(3, 101, 'test.jpg', 'a.jpg'),
+(4, 102, 'test2.jpg', 'a2.jpg'),
+(5, 101, 'test3.jpg', 'a3.jpg');
 
 -- Thêm địa chỉ giao hàng
 INSERT INTO delivery_address (address_id, address_name, buyer_id) VALUES

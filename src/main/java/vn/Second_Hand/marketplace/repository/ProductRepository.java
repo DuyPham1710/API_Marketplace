@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import vn.Second_Hand.marketplace.entity.Product;
+import vn.Second_Hand.marketplace.entity.ProductImage;
 
 import java.awt.print.Pageable;
 import java.util.Date;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
+   // List<ProductImage> findByProduct(Product product);
     List<Product> findByCategory_CategoryId(int categoryId);
 
     @Query("SELECT p FROM Product p ORDER BY p.sold DESC LIMIT 10")
@@ -20,7 +22,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Query("SELECT p FROM Product p WHERE p.createdAt >= :sevenDaysAgo ORDER BY p.createdAt DESC LIMIT 10")
     List<Product> findProductsCreatedLast7Days(@Param("sevenDaysAgo") Date sevenDaysAgo);
 
-    @Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    @Query("SELECT p FROM Product p WHERE LOWER(p.productName) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<Product> searchByName(@Param("keyword") String keyword);
 
 

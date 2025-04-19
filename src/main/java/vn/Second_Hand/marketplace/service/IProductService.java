@@ -1,5 +1,6 @@
 package vn.Second_Hand.marketplace.service;
 
+import vn.Second_Hand.marketplace.dto.responses.ProductResponse;
 import vn.Second_Hand.marketplace.entity.Category;
 import vn.Second_Hand.marketplace.entity.Product;
 
@@ -10,4 +11,5 @@ public interface IProductService {
     List<Product> getTop10BestSellingProducts();
     List<Product> getProductsCreatedLast7Days();
     List<Product> searchProductsByName(String keyword);
+    ProductResponse getProductWithImages(int productId);
 }

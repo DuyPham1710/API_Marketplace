@@ -1,11 +1,20 @@
 package vn.Second_Hand.marketplace.service.Impl;
 
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import vn.Second_Hand.marketplace.dto.responses.ProductResponse;
 import vn.Second_Hand.marketplace.entity.Category;
 import vn.Second_Hand.marketplace.entity.Product;
+import vn.Second_Hand.marketplace.entity.ProductImage;
+import vn.Second_Hand.marketplace.exception.AppException;
+import vn.Second_Hand.marketplace.exception.ErrorCode;
+import vn.Second_Hand.marketplace.mapper.ProductMapper;
 import vn.Second_Hand.marketplace.repository.CategoryRepository;
+import vn.Second_Hand.marketplace.repository.ProductImageRepository;
 import vn.Second_Hand.marketplace.repository.ProductRepository;
 import vn.Second_Hand.marketplace.service.IProductService;
 
@@ -15,9 +24,22 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductServiceImpl implements IProductService {
-    @Autowired
-    private ProductRepository productRepository;
+    ProductRepository productRepository;
+    ProductImageRepository productImageRepository;
+    ProductMapper productMapper;
+    // về sửa cái này
+    @Override
+    public ProductResponse getProductWithImages(int productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+
+        List<ProductImage> images = productImageRepository.findByProduct(product);
+
+        return productMapper.toProductResponse(product, images);
+    }
 
     @Override
     public List<Product> getProductsByCategory(int categoryId) {
