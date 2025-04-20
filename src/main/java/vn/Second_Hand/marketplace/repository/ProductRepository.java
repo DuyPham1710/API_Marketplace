@@ -13,7 +13,6 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
-   // List<ProductImage> findByProduct(Product product);
     List<Product> findByCategory_CategoryId(int categoryId);
 
     @Query("SELECT p FROM Product p ORDER BY p.sold DESC LIMIT 10")
@@ -24,6 +23,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     @Query("SELECT p FROM Product p WHERE LOWER(p.productName) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<Product> searchByName(@Param("keyword") String keyword);
-
+    List<Product> findAllByOrderByCreatedAtDesc();
 
 }

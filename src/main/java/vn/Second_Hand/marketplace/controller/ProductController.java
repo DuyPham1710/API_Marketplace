@@ -23,6 +23,22 @@ public class ProductController {
     IProductService productService;
     ICategoryService categoryService;
 
+    @GetMapping("/products/newest")
+    public ApiResponse<List<ProductResponse>> getNewestProducts() {
+        return ApiResponse.<List<ProductResponse>>builder()
+                .message("New Products")
+                .data(productService.getAllProductsOrderByNewest())
+                .build();
+    }
+
+    @GetMapping("/products")
+    public ApiResponse<List<ProductResponse>> getAllProducts() {
+        return ApiResponse.<List<ProductResponse>>builder()
+                .message("Products")
+                .data(productService.getAllProducts())
+                .build();
+    }
+
     @GetMapping("/products/{id}")
     public ApiResponse<ProductResponse> getProductDetails(@PathVariable("id") int id) {
         ProductResponse response = productService.getProductWithImages(id);

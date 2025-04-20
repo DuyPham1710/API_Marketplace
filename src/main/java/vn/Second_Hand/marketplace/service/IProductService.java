@@ -12,4 +12,6 @@ public interface IProductService {
     List<Product> getProductsCreatedLast7Days();
     List<Product> searchProductsByName(String keyword);
     ProductResponse getProductWithImages(int productId);
+    List<ProductResponse> getAllProducts();
+    List<ProductResponse> getAllProductsOrderByNewest();
 }

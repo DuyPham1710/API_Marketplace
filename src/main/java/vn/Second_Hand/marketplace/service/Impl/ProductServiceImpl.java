@@ -22,6 +22,7 @@ import java.awt.print.Pageable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +31,29 @@ public class ProductServiceImpl implements IProductService {
     ProductRepository productRepository;
     ProductImageRepository productImageRepository;
     ProductMapper productMapper;
-    // về sửa cái này
+
+    @Override
+    public List<ProductResponse> getAllProductsOrderByNewest() {
+        List<Product> products = productRepository.findAllByOrderByCreatedAtDesc();
+
+        return products.stream()
+                .map(product -> {
+            List<ProductImage> images = productImageRepository.findByProduct(product);
+            return productMapper.toProductResponse(product, images);
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductResponse> getAllProducts() {
+        List<Product> products = productRepository.findAll();
+        return products.stream()
+                .map(product -> {
+                    List<ProductImage> images = productImageRepository.findByProduct(product);
+                    return productMapper.toProductResponse(product, images);
+                })
+                .collect(Collectors.toList());
+    }
+
     @Override
     public ProductResponse getProductWithImages(int productId) {
         Product product = productRepository.findById(productId)

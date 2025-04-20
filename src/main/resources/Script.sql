@@ -25,8 +25,8 @@ INSERT INTO product (product_id, owner_id, product_name, category_id, original_p
 
 -- Thêm hình ảnh sản phẩm
 INSERT INTO product_image (image_id, product_id, initial_image, current_image) VALUES
-(1, 101, 'iphone13_initial.jpg', 'iphone13_current.jpg'),
-(2, 102, 'macbook_initial.jpg', 'macbook_current.jpg'),
+(1, 101, 'https://cdn.viettelstore.vn/Images/Product/ProductImage/401676858.jpeg', 'https://product.hstatic.net/1000359786/product/94_918d11fdb55d492a9a791e49ac957933_master.jpg'),
+(2, 102, 'https://riderstore.it/wp-content/uploads/2024/12/MACBOOK-AIR-M1-SPACE-GRAY-RIDERSTORE-CELLULARI-USATI-MILANO.jpg', 'https://resource.kinhtedothi.vn/2024/12/13/r-9.jpg'),
 (3, 101, 'test.jpg', 'a.jpg'),
 (4, 102, 'test2.jpg', 'a2.jpg'),
 (5, 101, 'test3.jpg', 'a3.jpg');
