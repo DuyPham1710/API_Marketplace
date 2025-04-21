@@ -30,7 +30,7 @@ public class SecurityConfig {
     private final String[] PUBLIC_ENDPOINTS_POST = {"/auth/register", "/auth/login", "/auth/verify-token", "/cart/add"};
     private final String[] PUBLIC_ENDPOINTS_PUT = {"/auth/verify-account", "/auth/regenerate-otp", "/auth/forgot-password", "/auth/reset-password", "/cart/update", "/users/{userid}"};
    // private final String[] PUBLIC_ENDPOINTS_GET = {"/categories", "/products/category/{maDanhMuc}", "/products/top-10", "/products/last-7-days", "/cart", "/products/search", "/products/{id}", "/products"};
-    private final String[] PUBLIC_ENDPOINTS_GET = {"/categories", "/products/**", "/cart"};
+    private final String[] PUBLIC_ENDPOINTS_GET = {"/categories", "/category/**", "/products/**", "/cart"};
 
     private final String[] PUBLIC_ENDPOINTS_DELETE = {"/cart/remove"};
 

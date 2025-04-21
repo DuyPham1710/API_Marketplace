@@ -65,8 +65,15 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public List<Product> getProductsByCategory(int categoryId) {
-        return productRepository.findByCategory_CategoryId(categoryId);
+    public List<ProductResponse> getProductsByCategory(int categoryId) {
+        List<Product> products = productRepository.findByCategory_CategoryId(categoryId);
+
+        return products.stream()
+                .map(product -> {
+                    List<ProductImage> images = productImageRepository.findByProduct(product);
+                    return productMapper.toProductResponse(product, images);
+                })
+                .collect(Collectors.toList());
     }
 
     @Override
