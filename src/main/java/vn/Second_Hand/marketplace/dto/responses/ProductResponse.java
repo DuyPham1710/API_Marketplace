@@ -23,6 +23,7 @@ public class ProductResponse {
     String conditionDescription;
     Date createdAt;
     int sold;
+    int quantity;
     String categoryName;
     List<String> initialImages;
     List<String> currentImages;
