@@ -3,25 +3,18 @@ package vn.Second_Hand.marketplace.service.Impl;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import vn.Second_Hand.marketplace.dto.responses.ProductResponse;
-import vn.Second_Hand.marketplace.entity.Category;
 import vn.Second_Hand.marketplace.entity.Product;
 import vn.Second_Hand.marketplace.entity.ProductImage;
 import vn.Second_Hand.marketplace.exception.AppException;
 import vn.Second_Hand.marketplace.exception.ErrorCode;
 import vn.Second_Hand.marketplace.mapper.ProductMapper;
-import vn.Second_Hand.marketplace.repository.CategoryRepository;
 import vn.Second_Hand.marketplace.repository.ProductImageRepository;
 import vn.Second_Hand.marketplace.repository.ProductRepository;
 import vn.Second_Hand.marketplace.service.IProductService;
 
-import java.awt.print.Pageable;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,6 +25,21 @@ public class ProductServiceImpl implements IProductService {
     ProductImageRepository productImageRepository;
     ProductMapper productMapper;
 
+    @Override
+    public List<ProductResponse> filterProductsByPriceRange(int categoryId, int minPrice, int maxPrice) {
+        List<Product> products = productRepository.findByCategoryIdAndPriceBetween(categoryId, minPrice, maxPrice);
+
+        return products.stream()
+                .map(product -> {
+                    List<ProductImage> images = productImageRepository.findByProduct(product);
+                    return productMapper.toProductResponse(product, images);
+                }).collect(Collectors.toList());
+    }
+
+    @Override
+    public int getMaxPriceByCategory(int categoryId) {
+        return productRepository.findMaxPriceByCategory(categoryId);
+    }
     @Override
     public List<ProductResponse> getAllProductsOrderByNewest() {
         List<Product> products = productRepository.findAllByOrderByCreatedAtDesc();

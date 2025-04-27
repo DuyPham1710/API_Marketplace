@@ -25,4 +25,11 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> searchByName(@Param("keyword") String keyword);
     List<Product> findAllByOrderByCreatedAtDesc();
 
+    @Query("SELECT MAX(CAST(p.currentPrice AS double)) FROM Product p WHERE p.category.categoryId = :categoryId")
+    int findMaxPriceByCategory(@Param("categoryId") int categoryId);
+
+    @Query("SELECT p FROM Product p WHERE p.category.categoryId = :categoryId AND CAST(p.currentPrice AS double) BETWEEN :minPrice AND :maxPrice")
+    List<Product> findByCategoryIdAndPriceBetween(@Param("categoryId") int categoryId,
+                                                  @Param("minPrice") double minPrice,
+                                                  @Param("maxPrice") double maxPrice);
 }

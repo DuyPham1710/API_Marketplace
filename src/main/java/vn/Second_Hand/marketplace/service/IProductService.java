@@ -1,7 +1,6 @@
 package vn.Second_Hand.marketplace.service;
 
 import vn.Second_Hand.marketplace.dto.responses.ProductResponse;
-import vn.Second_Hand.marketplace.entity.Category;
 import vn.Second_Hand.marketplace.entity.Product;
 
 import java.util.List;
@@ -14,4 +13,6 @@ public interface IProductService {
     ProductResponse getProductWithImages(int productId);
     List<ProductResponse> getAllProducts();
     List<ProductResponse> getAllProductsOrderByNewest();
+    int getMaxPriceByCategory(int categoryId);
+    List<ProductResponse> filterProductsByPriceRange(int categoryId, int minPrice, int maxPrice);
 }

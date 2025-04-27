@@ -21,7 +21,8 @@ INSERT INTO category (category_id, category_name, category_img) VALUES
 -- Thêm sản phẩm mẫu
 INSERT INTO product (product_id, owner_id, product_name, category_id, original_price, current_price, quantity, origin, warranty, product_condition, condition_description, product_description, created_at, sold) VALUES
 (101, 1, 'iPhone 13', 1, '20000000', '18000000', 10, 'USA', '12 tháng', 'Mới', 'Chưa kích hoạt', 'iPhone 13 chính hãng Apple', NOW(), 2),
-(102, 1, 'MacBook Air M1', 2, '25000000', '22000000', 5, 'USA', '12 tháng', 'Mới', 'Chưa kích hoạt', 'MacBook Air M1 2023', NOW(), 1);
+(102, 1, 'MacBook Air M1', 2, '25000000', '22000000', 5, 'USA', '12 tháng', 'Mới', 'Chưa kích hoạt', 'MacBook Air M1 2023', NOW(), 1),
+(103, 1, 'IPhone 16 Pro max', 1, '25000000', '22000000', 5, 'USA', '12 tháng', 'Mới', 'Chưa kích hoạt', 'iPhone 16 promax chính hãng Apple', NOW(), 20);
 
 -- Thêm hình ảnh sản phẩm
 INSERT INTO product_image (image_id, product_id, initial_image, current_image) VALUES
@@ -29,7 +30,9 @@ INSERT INTO product_image (image_id, product_id, initial_image, current_image) V
 (2, 102, 'https://riderstore.it/wp-content/uploads/2024/12/MACBOOK-AIR-M1-SPACE-GRAY-RIDERSTORE-CELLULARI-USATI-MILANO.jpg', 'https://resource.kinhtedothi.vn/2024/12/13/r-9.jpg'),
 (3, 101, 'test.jpg', 'a.jpg'),
 (4, 102, 'test2.jpg', 'a2.jpg'),
-(5, 101, 'test3.jpg', 'a3.jpg');
+(5, 101, 'test3.jpg', 'a3.jpg'),
+(6, 103, 'https://cdn.tgdd.vn/Products/Images/42/329149/iphone-16-pro-max-sa-mac-thumb-1-600x600.jpg', 'https://cdn.24h.com.vn/upload/4-2024/images/2024-11-14/danh-gia-iPhone-16-Pro-Max-sau-hai-thang-Co-dang-gia-khong-1-1731553330-218-width1312height738.jpg'),
+(7, 103, 'https://product.hstatic.net/1000359786/product/iphone-16-pro-den-1_2f283c3df54b419bb8c37df222f945f4_master.png', 'https://img.kleinanzeigen.de/api/v1/prod-ads/images/38/38071b0e-56b4-41c6-8368-06250d6b92d0?rule=$_59.AUTO');
 
 -- Thêm địa chỉ giao hàng
 INSERT INTO delivery_address (address_id, address_name, buyer_id) VALUES

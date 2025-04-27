@@ -3,13 +3,9 @@ package vn.Second_Hand.marketplace.controller;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.Second_Hand.marketplace.dto.responses.ApiResponse;
 import vn.Second_Hand.marketplace.dto.responses.ProductResponse;
-import vn.Second_Hand.marketplace.entity.Category;
 import vn.Second_Hand.marketplace.entity.Product;
 import vn.Second_Hand.marketplace.service.ICategoryService;
 import vn.Second_Hand.marketplace.service.IProductService;
@@ -22,6 +18,26 @@ import java.util.List;
 public class ProductController {
     IProductService productService;
     ICategoryService categoryService;
+
+
+    @GetMapping("/filter")
+    public ApiResponse<List<ProductResponse>> filterProductsByPrice(
+            @RequestParam int categoryId,
+            @RequestParam int minPrice,
+            @RequestParam int maxPrice) {
+
+        return ApiResponse.<List<ProductResponse>>builder()
+                .message("Filter by price")
+                .data(productService.filterProductsByPriceRange(categoryId, minPrice, maxPrice))
+                .build();
+    }
+    @GetMapping("/category/{categoryId}/max-price")
+    public ApiResponse<Integer> getMaxPrice(@PathVariable("categoryId") int categoryId) {
+        return ApiResponse.<Integer>builder()
+                .message("Max price by categoryId = " + categoryId)
+                .data(productService.getMaxPriceByCategory(categoryId))
+                .build();
+    }
 
     @GetMapping("/products/newest")
     public ApiResponse<List<ProductResponse>> getNewestProducts() {
