@@ -112,6 +112,7 @@ public class AuthServiceImpl implements IAuthService {
         String token = genarateToken(user);
 
         return AuthResponse.builder()
+                .id(user.getId())
                 .token(token)
                 .authenticated(true)
                 .build();
