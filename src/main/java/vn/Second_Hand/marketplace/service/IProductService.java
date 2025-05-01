@@ -15,4 +15,5 @@ public interface IProductService {
     List<ProductResponse> getAllProductsOrderByNewest();
     int getMaxPriceByCategory(int categoryId);
     List<ProductResponse> filterProductsByPriceRange(int categoryId, int minPrice, int maxPrice);
+    List<ProductResponse> getProductsByProductIds(List<Integer> productIds);
 }

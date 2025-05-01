@@ -27,10 +27,10 @@ public class FavoriteProductController {
     }
 
     @GetMapping("/{userId}")
-    public ApiResponse<List<Integer>> getFavorites(@PathVariable("userId") int userId) {
+    public ApiResponse<List<Integer>> getFavoriteProductIds(@PathVariable("userId") int userId) {
         return ApiResponse.<List<Integer>>builder()
                 .message("User's favorite products")
-                .data(favoriteProductService.getFavorites(userId))
+                .data(favoriteProductService.getFavoriteProductIds(userId))
                 .build();
     }
 }

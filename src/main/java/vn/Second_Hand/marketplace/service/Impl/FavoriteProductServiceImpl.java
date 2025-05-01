@@ -50,7 +50,7 @@ public class FavoriteProductServiceImpl implements IFavoriteProductService {
     }
 
     @Override
-    public List<Integer> getFavorites(int userId) {
+    public List<Integer> getFavoriteProductIds(int userId) {
         return favoriteProductRepository.findProductIdsByUserId(userId);
     }
 }

@@ -20,6 +20,14 @@ public class ProductController {
     ICategoryService categoryService;
 
 
+    @PostMapping("/products/by-ids")
+    public ApiResponse<List<ProductResponse>> getProductsByProductIds(@RequestBody List<Integer> productIds) {
+        return ApiResponse.<List<ProductResponse>>builder()
+                .message("Get products sucessfully")
+                .data(productService.getProductsByProductIds(productIds))
+                .build();
+    }
+
     @GetMapping("/filter")
     public ApiResponse<List<ProductResponse>> filterProductsByPrice(
             @RequestParam int categoryId,
