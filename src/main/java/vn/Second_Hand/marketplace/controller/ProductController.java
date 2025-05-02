@@ -19,7 +19,14 @@ public class ProductController {
     IProductService productService;
     ICategoryService categoryService;
 
-
+    @PostMapping("/products/recommend")
+    public ApiResponse<List<ProductResponse>> getRecommendedProducts(@RequestBody List<Integer> categoryIds) {
+    //    List<ProductResponse> recommendedProducts = productService.findRecommendedByCategoryIds(categoryIds);
+        return ApiResponse.<List<ProductResponse>>builder()
+                .message("Recommended products fetched")
+                .data(productService.findRecommendedByCategoryIds(categoryIds))
+                .build();
+    }
     @PostMapping("/products/by-ids")
     public ApiResponse<List<ProductResponse>> getProductsByProductIds(@RequestBody List<Integer> productIds) {
         return ApiResponse.<List<ProductResponse>>builder()

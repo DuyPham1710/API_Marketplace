@@ -13,6 +13,9 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
+    List<Product> findByCategory_CategoryIdInOrderByCreatedAtDesc(List<Integer> categoryIds);
+
+
     List<Product> findByCategory_CategoryId(int categoryId);
 
     @Query("SELECT p FROM Product p ORDER BY p.sold DESC LIMIT 10")

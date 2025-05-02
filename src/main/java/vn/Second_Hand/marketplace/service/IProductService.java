@@ -16,4 +16,5 @@ public interface IProductService {
     int getMaxPriceByCategory(int categoryId);
     List<ProductResponse> filterProductsByPriceRange(int categoryId, int minPrice, int maxPrice);
     List<ProductResponse> getProductsByProductIds(List<Integer> productIds);
+    List<ProductResponse> findRecommendedByCategoryIds(List<Integer> categoryIds);
 }

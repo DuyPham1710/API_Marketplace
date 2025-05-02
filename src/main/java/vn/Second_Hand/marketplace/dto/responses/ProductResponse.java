@@ -24,6 +24,7 @@ public class ProductResponse {
     Date createdAt;
     int sold;
     int quantity;
+    int categoryId;
     String categoryName;
     List<String> initialImages;
     List<String> currentImages;

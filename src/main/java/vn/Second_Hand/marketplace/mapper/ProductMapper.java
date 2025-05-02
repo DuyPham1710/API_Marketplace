@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
+    @Mapping(source = "product.category.categoryId", target = "categoryId")
     @Mapping(source = "product.category.categoryName", target = "categoryName")
     @Mapping(target = "initialImages", expression = "java(mapInitialImages(images))")
     @Mapping(target = "currentImages", expression = "java(mapCurrentImages(images))")
