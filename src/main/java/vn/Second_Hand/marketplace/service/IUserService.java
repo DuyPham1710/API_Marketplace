@@ -12,4 +12,5 @@ public interface IUserService {
     public String resetPassword(ResetPasswordRequest request);
     public List<UserResponse> getAllUser();
     UserResponse updateUser(int userId, UserUpdateRequest updatedUser);
+    UserResponse getMyInfo();
 }

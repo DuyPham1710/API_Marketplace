@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -26,11 +27,12 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
     private final String[] PUBLIC_ENDPOINTS_POST = {"/auth/register", "/auth/login", "/auth/verify-token", "/cart/add", "/favorites/**", "/products/**"};
     private final String[] PUBLIC_ENDPOINTS_PUT = {"/auth/verify-account", "/auth/regenerate-otp", "/auth/forgot-password", "/auth/reset-password", "/cart/update", "/users/{userid}"};
    // private final String[] PUBLIC_ENDPOINTS_GET = {"/categories", "/products/category/{maDanhMuc}", "/products/top-10", "/products/last-7-days", "/cart", "/products/search", "/products/{id}", "/products"};
-    private final String[] PUBLIC_ENDPOINTS_GET = {"/categories", "/category/**", "/products/**", "/cart", "/favorites/**", "/filter"};
+    private final String[] PUBLIC_ENDPOINTS_GET = {"/users/{userId}", "/categories", "/category/**", "/products/**", "/cart", "/favorites/**", "/filter"};
 
     private final String[] PUBLIC_ENDPOINTS_DELETE = {"/cart/remove"};
 
@@ -43,8 +45,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, PUBLIC_ENDPOINTS_PUT).permitAll()
                         .requestMatchers(HttpMethod.GET, PUBLIC_ENDPOINTS_GET).permitAll()
                         .requestMatchers(HttpMethod.DELETE, PUBLIC_ENDPOINTS_DELETE).permitAll()
-                        .requestMatchers("/swagger-ui/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/users").hasRole(RoleUtil.ADMIN.name())
+                        .requestMatchers("/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                      //  .requestMatchers(HttpMethod.GET, "/users").hasRole(RoleUtil.ADMIN.name())
                         .anyRequest().authenticated()).csrf(AbstractHttpConfigurer::disable);
         httpSecurity.oauth2ResourceServer(oauth2 ->
                 oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder())
