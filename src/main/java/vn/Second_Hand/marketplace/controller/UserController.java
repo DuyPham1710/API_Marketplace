@@ -1,5 +1,6 @@
 package vn.Second_Hand.marketplace.controller;
 
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -38,9 +39,9 @@ public class UserController {
                 .build();
     }
     @PutMapping("/{userid}")
-    public ApiResponse<UserResponse> updateUser(@PathVariable int userid, @RequestBody UserUpdateRequest req) {
+    public ApiResponse<UserResponse> updateUser(@PathVariable int userid, @Valid @RequestBody UserUpdateRequest req) {
         return ApiResponse.<UserResponse>builder()
-                .message("updated successfully!")
+                .message("User updated successfully!")
                 .data(userService.updateUser(userid, req))
                 .build();
     }

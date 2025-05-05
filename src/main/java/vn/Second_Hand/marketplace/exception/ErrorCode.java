@@ -16,7 +16,9 @@ public enum ErrorCode {
     INVALID_MESSAGE(1111, "Invalid message"),
     PRODUCT_NOT_FOUND(1112, "Product not found"),
     CART_NOT_FOUND(1113, "Cart item not found"),
-    NOT_MATCH_PASSWORD(1114, "Password and confirm password do not match. Please try again!")
+    NOT_MATCH_PASSWORD(1114, "Password and confirm password do not match. Please try again!"),
+    FULL_NAME_INVALID(1115, "Full name is required"),
+    PHONE_NUMBER_INVALID(1003, "Phone number must be 10 digits"),
     ;
 
     ErrorCode(int code, String message) {

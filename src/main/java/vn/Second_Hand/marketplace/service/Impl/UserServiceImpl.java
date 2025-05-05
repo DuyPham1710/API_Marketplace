@@ -21,6 +21,7 @@ import vn.Second_Hand.marketplace.repository.UserRepository;
 import vn.Second_Hand.marketplace.service.IEmailService;
 import vn.Second_Hand.marketplace.service.IUserService;
 import vn.Second_Hand.marketplace.util.OtpUtil;
+import vn.Second_Hand.marketplace.util.RoleUtil;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -96,8 +97,12 @@ public class UserServiceImpl implements IUserService {
         return userMapper.toUserResponse(userRepository.findAll());
     }
 
+    @Override
     public UserResponse updateUser(int userId, UserUpdateRequest updatedUser) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+        // Update user
         userMapper.updateUser(updatedUser, user);
         return userMapper.toUserResponse(userRepository.save(user));
     }

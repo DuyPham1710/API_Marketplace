@@ -18,6 +18,7 @@ public class UserResponse {
     String gender;
     Date dateOfBirth;
     String email;
+    String username;
     Boolean isActive;
     String otp;
     LocalDateTime otpGenaratedTime;
