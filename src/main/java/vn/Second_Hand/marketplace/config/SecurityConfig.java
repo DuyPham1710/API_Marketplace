@@ -29,10 +29,10 @@ import java.util.List;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-    private final String[] PUBLIC_ENDPOINTS_POST = {"/auth/register", "/auth/login", "/auth/verify-token", "/cart/add", "/favorites/**", "/products/**"};
+    private final String[] PUBLIC_ENDPOINTS_POST = {"/auth/register", "/auth/login", "/auth/verify-token", "/cart/add", "/favorites/**", "/products/**", "/orders/**"};
     private final String[] PUBLIC_ENDPOINTS_PUT = {"/auth/verify-account", "/auth/regenerate-otp", "/auth/forgot-password", "/auth/reset-password", "/cart/update", "/users/{userid}"};
    // private final String[] PUBLIC_ENDPOINTS_GET = {"/categories", "/products/category/{maDanhMuc}", "/products/top-10", "/products/last-7-days", "/cart", "/products/search", "/products/{id}", "/products"};
-    private final String[] PUBLIC_ENDPOINTS_GET = {"/users/{userId}", "/categories", "/category/**", "/products/**", "/cart", "/favorites/**", "/filter"};
+    private final String[] PUBLIC_ENDPOINTS_GET = {"/users/{userId}", "/categories", "/category/**", "/products/**", "/cart", "/favorites/**", "/filter", "/orders/**"};
 
     private final String[] PUBLIC_ENDPOINTS_DELETE = {"/cart/remove"};
 
