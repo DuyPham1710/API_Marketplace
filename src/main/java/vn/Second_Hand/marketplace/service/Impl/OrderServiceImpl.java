@@ -8,10 +8,7 @@ import org.springframework.stereotype.Service;
 import vn.Second_Hand.marketplace.dto.requests.OrderDetailRequest;
 import vn.Second_Hand.marketplace.dto.requests.OrderRequest;
 import vn.Second_Hand.marketplace.dto.responses.OrderResponse;
-import vn.Second_Hand.marketplace.entity.Order;
-import vn.Second_Hand.marketplace.entity.OrderDetail;
-import vn.Second_Hand.marketplace.entity.Product;
-import vn.Second_Hand.marketplace.entity.User;
+import vn.Second_Hand.marketplace.entity.*;
 import vn.Second_Hand.marketplace.exception.AppException;
 import vn.Second_Hand.marketplace.exception.ErrorCode;
 import vn.Second_Hand.marketplace.mapper.OrderDetailMapper;
@@ -34,6 +31,49 @@ public class OrderServiceImpl implements IOrderService {
     OrderMapper orderMapper;
     OrderDetailMapper orderDetailMapper;
     ProductImageRepository productImageRepository;
+    ReviewRepository reviewRepository;
+
+    @Override
+    public void updateOrderStatus(int orderId, String status) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
+
+        order.setStatus(status);
+        orderRepository.save(order);
+
+        // Nếu trạng thái là "Đã giao" thì tạo review mặc định cho từng sản phẩm
+        if ("Đã giao".equalsIgnoreCase(status)) {
+            User buyer = order.getBuyer();
+
+            for (OrderDetail detail : order.getOrderDetails()) {
+                Product product = detail.getProduct();
+
+                // Cập nhật số lượng sản phẩm
+                int currentQuantity = product.getQuantity();
+                int orderedQuantity = detail.getQuantity();
+                int newQuantity = currentQuantity - orderedQuantity;
+
+                // Cập nhật số lượng mới cho sản phẩm
+                product.setQuantity(newQuantity);
+                productRepository.save(product);
+
+//                boolean alreadyExists = reviewRepository.existsByOrderDetail_OrderDetailId(detail.getOrderDetailId());
+//                if (!alreadyExists || ) {
+                    Review review = Review.builder()
+                            .buyer(buyer)
+                            .product(product)
+                            .orderDetail(detail)
+                            .comment("")
+                            .stars(0)
+                            .reviewDate(new Date())
+                            .status("Chưa đánh giá")
+                            .build();
+
+                    reviewRepository.save(review);
+             //   }
+            }
+        }
+    }
 
     @Override
     public String createOrder(OrderRequest request) {
@@ -67,12 +107,19 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public List<OrderResponse> getOrdersOfCurrentUser() {
+    public List<OrderResponse> getOrdersOfCurrentUser(String status) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User currentUser = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
-        List<Order> orders = orderRepository.findByBuyerOrderByCreatedAtDesc(currentUser);
+        List<Order> orders;
+        if (status != null && !status.isEmpty()) {
+            orders = orderRepository.findByBuyerAndStatusOrderByCreatedAtDesc(currentUser, status);
+        } else {
+            orders = orderRepository.findByBuyerOrderByCreatedAtDesc(currentUser);
+        }
+
+      //  List<Order> orders = orderRepository.findByBuyerAndStatusOrderByCreatedAtDesc(currentUser, status);
 
         return orderMapper.toOrderResponses(orders, productImageRepository, userRepository);
     }

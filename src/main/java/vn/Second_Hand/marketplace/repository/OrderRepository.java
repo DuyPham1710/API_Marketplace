@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Integer> {
     List<Order> findByBuyerOrderByCreatedAtDesc(User buyer);
+    List<Order> findByBuyerAndStatusOrderByCreatedAtDesc(User buyer, String status);
+
 }

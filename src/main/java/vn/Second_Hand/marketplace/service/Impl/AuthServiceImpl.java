@@ -106,7 +106,7 @@ public class AuthServiceImpl implements IAuthService {
         }
 
         if (!user.getIsActive()) {
-            throw new AppException(ErrorCode.ACOUNT_NOT_ACTIVATED);
+            throw new AppException(ErrorCode.ACCOUNT_NOT_ACTIVATED);
             //  return "Your account is not activated. Please verify your email to activate your account.";
         }
         String token = genarateToken(user);
