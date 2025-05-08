@@ -17,6 +17,7 @@ public class UserResponse {
     String phoneNumber;
     String gender;
     Date dateOfBirth;
+    String avt;
     String email;
     String username;
     Boolean isActive;

@@ -25,5 +25,5 @@ public class UserUpdateRequest {
     String gender;
 
     Date dateOfBirth;
-
+    String avt;
 }

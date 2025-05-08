@@ -22,8 +22,7 @@ public class User {
     String phoneNumber;
     String gender;
     Date dateOfBirth;
-//    @Lob
-//    private byte[] avt;
+    String avt;
     String email;
     String username;
     String password;
