@@ -22,6 +22,8 @@ public enum ErrorCode {
     ORDER_NOT_FOUND(1117, "Order not found"),
     REVIEW_NOT_FOUND(1118, "Review not found"),
     UNAUTHORIZED(1119, "Unauthorized"),
+    NOT_ORDER_OWNER(1120, "You are not the owner of this order"),
+    ORDER_CANNOT_BE_CANCELLED(1121, "Order cannot be cancelled"),
 
     ;
 
