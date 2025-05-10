@@ -22,14 +22,11 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "buyer_id")
     User buyer;
-
     Date createdAt;
-
     String totalAmount;
-
     String address;
-
     String status;
+    String paymentMethod;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     List<OrderDetail> orderDetails;

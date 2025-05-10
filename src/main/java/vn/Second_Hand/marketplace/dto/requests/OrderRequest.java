@@ -13,5 +13,6 @@ import java.util.List;
 public class OrderRequest {
     int buyerId;
     String address;
+    String paymentMethod;
     List<OrderDetailRequest> orderDetails;
 }

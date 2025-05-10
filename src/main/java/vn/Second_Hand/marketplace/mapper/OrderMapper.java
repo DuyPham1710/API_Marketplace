@@ -32,6 +32,7 @@ public interface OrderMapper {
     @Mapping(target = "totalAmount", source = "totalAmount")
     @Mapping(target = "address", source = "address")
     @Mapping(target = "status", source = "status")
+    @Mapping(target = "paymentMethod", source = "paymentMethod")
     @Mapping(target = "orderDetails", expression = "java(mapOrderDetails(order.getOrderDetails(), imageRepo))")
     OrderResponse toOrderResponse(Order order, @Context ProductImageRepository imageRepo, @Context UserRepository userRepo);
 

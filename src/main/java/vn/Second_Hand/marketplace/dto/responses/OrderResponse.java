@@ -19,5 +19,6 @@ public class OrderResponse {
     String totalAmount;
     String address;
     String status;
+    String paymentMethod;
     List<OrderDetailResponse> orderDetails;
 }
