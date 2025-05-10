@@ -13,6 +13,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductResponse {
     int productId;
+    int ownerId;
     String productName;
     String currentPrice;
     String originalPrice;

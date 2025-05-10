@@ -13,4 +13,5 @@ public interface IUserService {
     public List<UserResponse> getAllUser();
     UserResponse updateUser(int userId, UserUpdateRequest updatedUser);
     UserResponse getMyInfo();
+    UserResponse getUserById(int userId);
 }

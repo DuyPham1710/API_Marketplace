@@ -53,4 +53,13 @@ public class UserController {
                 .data(userService.getMyInfo())
                 .build();
     }
+
+    @GetMapping("/{userId}")
+    public ApiResponse<UserResponse> getUserById(@PathVariable int userId) {
+        UserResponse userResponse = userService.getUserById(userId);
+        return ApiResponse.<UserResponse>builder()
+                .message("User found successfully")
+                .data(userResponse)
+                .build();
+    }
 }

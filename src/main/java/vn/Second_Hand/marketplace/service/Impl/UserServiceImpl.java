@@ -106,4 +106,13 @@ public class UserServiceImpl implements IUserService {
         userMapper.updateUser(updatedUser, user);
         return userMapper.toUserResponse(userRepository.save(user));
     }
+
+    @Override
+    public UserResponse getUserById(int userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+        // Map User entity sang UserResponse DTO
+        return userMapper.toUserResponse(user);
+    }
 }
