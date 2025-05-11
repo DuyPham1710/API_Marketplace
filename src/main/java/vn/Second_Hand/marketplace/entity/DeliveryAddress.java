@@ -19,7 +19,14 @@ public class DeliveryAddress {
     @Column(name = "address_name", nullable = false)
     String addressName;
 
+    @Column(name = "phone_number", nullable = false)
+    String phoneNumber;
+
     @ManyToOne
     @JoinColumn(name = "buyer_id", nullable = false)
     User buyer;
+
+    @Column(name = "default_address", nullable = false)
+    int defaultAddress;
+
 }
