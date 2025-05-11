@@ -1,6 +1,7 @@
 package vn.Second_Hand.marketplace.service;
 
 import vn.Second_Hand.marketplace.dto.requests.CartRequest;
+import vn.Second_Hand.marketplace.dto.responses.CartResponse;
 import vn.Second_Hand.marketplace.entity.Cart;
 
 import java.util.List;
@@ -10,4 +11,5 @@ public interface ICartService {
     String addToCart(CartRequest request);
     String updateCart(CartRequest request);
     String removeFromCart(CartRequest request);
+    List<CartResponse> getCartItemsByUserId(int userId);
 }

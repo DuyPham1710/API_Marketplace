@@ -10,6 +10,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CartResponse {
     int productId;
-    String productName;
+    UserResponse buyer;
+    ProductResponse product;
     int quantity;
 }
