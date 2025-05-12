@@ -9,8 +9,9 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface DeliveryAddressMapper {
-    @Mapping(source = "buyer.username", target = "username")
+  //  @Mapping(source = "buyer.username", target = "username")
     @Mapping(source = "defaultAddress", target = "defaultAddress")
+   // @Mapping(target = "username", ignore = true)
     DeliveryAddressResponse toResponse(DeliveryAddress address);
 
     List<DeliveryAddressResponse> toResponseList(List<DeliveryAddress> addresses);

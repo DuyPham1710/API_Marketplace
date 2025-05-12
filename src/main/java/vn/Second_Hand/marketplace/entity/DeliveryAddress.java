@@ -26,6 +26,9 @@ public class DeliveryAddress {
     @JoinColumn(name = "buyer_id", nullable = false)
     User buyer;
 
+    @Column(name = "name_buyer", nullable = false)
+    String nameBuyer;
+
     @Column(name = "default_address", nullable = false)
     int defaultAddress;
 

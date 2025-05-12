@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 import vn.Second_Hand.marketplace.dto.requests.DeliveryAddressRequest;
 import vn.Second_Hand.marketplace.dto.requests.UpdateDefaultAddressRequest;
+import vn.Second_Hand.marketplace.dto.requests.UpdateDeliveryAddressRequest;
 import vn.Second_Hand.marketplace.dto.responses.ApiResponse;
 import vn.Second_Hand.marketplace.dto.responses.DeliveryAddressResponse;
 import vn.Second_Hand.marketplace.service.IDeliveryAddressService;
@@ -42,4 +43,13 @@ public class DeliveryAddressController {
                 .data(deliveryAddressService.updateDefaultAddress(request))
                 .build();
     }
+
+    @PutMapping
+    public ApiResponse<DeliveryAddressResponse> updateDeliveryAddress(@RequestBody UpdateDeliveryAddressRequest request) {
+        return ApiResponse.<DeliveryAddressResponse>builder()
+                .message("Update delivery address successfully")
+                .data(deliveryAddressService.updateDeliveryAddress(request))
+                .build();
+    }
+
 }

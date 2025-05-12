@@ -9,7 +9,8 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DeliveryAddressResponse {
-    String username;
+    Long addressId;
+    String nameBuyer;
     String phoneNumber;
     String addressName;
     int defaultAddress;

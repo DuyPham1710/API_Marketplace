@@ -1,6 +1,5 @@
 package vn.Second_Hand.marketplace.dto.requests;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -9,9 +8,10 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class DeliveryAddressRequest {
+public class UpdateDeliveryAddressRequest {
+    Long addressId;
     String nameBuyer;
     String addressName;
     String phoneNumber;
-    int defaultFlag;
+    Integer defaultFlag;
 }
