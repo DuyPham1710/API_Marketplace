@@ -35,4 +35,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findByCategoryIdAndPriceBetween(@Param("categoryId") int categoryId,
                                                   @Param("minPrice") double minPrice,
                                                   @Param("maxPrice") double maxPrice);
+
+    List<Product> findByOwnerIdOrderByCreatedAtDesc(int ownerId);
+
+
 }

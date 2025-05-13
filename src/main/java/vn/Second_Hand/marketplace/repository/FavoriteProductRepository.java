@@ -15,4 +15,9 @@ public interface FavoriteProductRepository extends JpaRepository<FavoriteProduct
     List<Integer> findProductIdsByUserId(@Param("userId") int userId);
     Optional<FavoriteProduct> findByUser_IdAndProduct_ProductId(int userId, int productId);
     void deleteByUser_IdAndProduct_ProductId(int userId, int productId);
+//    Optional<FavoriteProduct> findByBuyerIdAndProductId(int buyerId, int productId);
+//    List<FavoriteProduct> findByBuyerId(int buyerId);
+//
+//    @Query("SELECT COUNT(DISTINCT fp.buyer.id) FROM FavoriteProduct fp JOIN fp.product p WHERE p.ownerId = :ownerId")
+//    int countDistinctUsersByProductOwnerId(@Param("ownerId") int ownerId);
 }
