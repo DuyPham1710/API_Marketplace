@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import vn.Second_Hand.marketplace.dto.responses.ProductResponse;
 import vn.Second_Hand.marketplace.entity.Product;
 import vn.Second_Hand.marketplace.entity.ProductImage;
 
@@ -28,11 +29,16 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> searchByName(@Param("keyword") String keyword);
     List<Product> findAllByOrderByCreatedAtDesc();
 
-    @Query("SELECT MAX(CAST(p.currentPrice AS double)) FROM Product p WHERE p.category.categoryId = :categoryId")
+    @Query("SELECT MAX(CAST(p.currentPrice AS double)) FROM Product p WHERE (:categoryId = -1 OR p.category.categoryId = :categoryId)")
     int findMaxPriceByCategory(@Param("categoryId") int categoryId);
 
-    @Query("SELECT p FROM Product p WHERE p.category.categoryId = :categoryId AND CAST(p.currentPrice AS double) BETWEEN :minPrice AND :maxPrice")
+    @Query("SELECT p FROM Product p " +
+            "WHERE (:categoryId = -1 OR p.category.categoryId = :categoryId) " +
+            "AND (:minPrice < 0 OR CAST(p.currentPrice AS double) BETWEEN :minPrice AND :maxPrice) " +
+            "AND (:keyword = 'nullNull1511' OR LOWER(p.productName) LIKE LOWER(CONCAT('%', :keyword, '%')))")
     List<Product> findByCategoryIdAndPriceBetween(@Param("categoryId") int categoryId,
-                                                  @Param("minPrice") double minPrice,
-                                                  @Param("maxPrice") double maxPrice);
+                                   @Param("minPrice") double minPrice,
+                                   @Param("maxPrice") double maxPrice,
+                                   @Param("keyword") String keyword);
+
 }

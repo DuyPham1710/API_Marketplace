@@ -35,15 +35,16 @@ public class ProductController {
                 .build();
     }
 
-    @GetMapping("/filter")
+    @GetMapping("/products/filter")
     public ApiResponse<List<ProductResponse>> filterProductsByPrice(
             @RequestParam int categoryId,
             @RequestParam int minPrice,
-            @RequestParam int maxPrice) {
+            @RequestParam int maxPrice,
+            @RequestParam String keyword) {
 
         return ApiResponse.<List<ProductResponse>>builder()
-                .message("Filter by price")
-                .data(productService.filterProductsByPriceRange(categoryId, minPrice, maxPrice))
+                .message("Filter")
+                .data(productService.filterProductsByPriceRange(categoryId, minPrice, maxPrice,keyword))
                 .build();
     }
     @GetMapping("/category/{categoryId}/max-price")
@@ -81,7 +82,7 @@ public class ProductController {
 
     @GetMapping("/products/search")
     public ApiResponse<?> searchProducts(@RequestParam String keyword) {
-        List<Product> products = productService.searchProductsByName(keyword);
+        List<ProductResponse> products = productService.searchProductsByName(keyword);
         if (products.isEmpty()) {
             return ApiResponse.builder()
                     .message("Không tìm thấy sản phẩm")

@@ -48,8 +48,8 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public List<ProductResponse> filterProductsByPriceRange(int categoryId, int minPrice, int maxPrice) {
-        List<Product> products = productRepository.findByCategoryIdAndPriceBetween(categoryId, minPrice, maxPrice);
+    public List<ProductResponse> filterProductsByPriceRange(int categoryId, int minPrice, int maxPrice,String keyword) {
+        List<Product> products = productRepository.findByCategoryIdAndPriceBetween(categoryId, minPrice, maxPrice, keyword);
 
         return products.stream()
                 .map(product -> {
@@ -119,8 +119,15 @@ public class ProductServiceImpl implements IProductService {
         return productRepository.findProductsCreatedLast7Days(sevenDaysAgo);
     }
     @Override
-    public List<Product> searchProductsByName(String keyword) {
-        return productRepository.searchByName(keyword);
+    public List<ProductResponse> searchProductsByName(String keyword) {
+        List<Product> products = productRepository.searchByName(keyword);
+
+        return products.stream()
+                .map(product -> {
+                    List<ProductImage> images = productImageRepository.findByProduct(product);
+                    return productMapper.toProductResponse(product, images);
+                })
+                .collect(Collectors.toList());
     }
 
 
