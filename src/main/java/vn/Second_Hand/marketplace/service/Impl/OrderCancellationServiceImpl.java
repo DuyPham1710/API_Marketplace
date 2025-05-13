@@ -7,15 +7,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import vn.Second_Hand.marketplace.dto.requests.CancelOrderRequest;
 import vn.Second_Hand.marketplace.dto.responses.CancelledOrderResponse;
-import vn.Second_Hand.marketplace.entity.CancelledOrder;
-import vn.Second_Hand.marketplace.entity.Order;
-import vn.Second_Hand.marketplace.entity.OrderDetail;
-import vn.Second_Hand.marketplace.entity.User;
+import vn.Second_Hand.marketplace.entity.*;
 import vn.Second_Hand.marketplace.exception.AppException;
 import vn.Second_Hand.marketplace.exception.ErrorCode;
 import vn.Second_Hand.marketplace.mapper.CancelledOrderMapper;
 import vn.Second_Hand.marketplace.repository.CancelledOrderRepository;
 import vn.Second_Hand.marketplace.repository.OrderRepository;
+import vn.Second_Hand.marketplace.repository.ProductRepository;
 import vn.Second_Hand.marketplace.repository.UserRepository;
 import vn.Second_Hand.marketplace.service.IOrderCancellationService;
 
@@ -27,6 +25,7 @@ public class OrderCancellationServiceImpl implements IOrderCancellationService {
     UserRepository userRepository;
     CancelledOrderRepository cancelledOrderRepository;
     CancelledOrderMapper mapper;
+    ProductRepository productRepository;
 
     @Override
     public CancelledOrderResponse cancelOrder(CancelOrderRequest request) {
@@ -46,6 +45,18 @@ public class OrderCancellationServiceImpl implements IOrderCancellationService {
             throw new AppException(ErrorCode.NOT_ORDER_OWNER);
         }
 
+        // Khôi phục lại số lượng sản phẩm khi hủy đơn hàng
+        for (OrderDetail detail : order.getOrderDetails()) {
+            Product product = detail.getProduct();
+
+            // Cộng lại số lượng sản phẩm
+            int currentQuantity = product.getQuantity();
+            int orderedQuantity = detail.getQuantity();
+            int newQuantity = currentQuantity + orderedQuantity;
+            product.setQuantity(newQuantity);
+
+            productRepository.save(product);
+        }
 
         order.setStatus("Đã hủy");
         orderRepository.save(order);

@@ -49,12 +49,18 @@ public class OrderServiceImpl implements IOrderService {
                 Product product = detail.getProduct();
 
                 // Cập nhật số lượng sản phẩm
-                int currentQuantity = product.getQuantity();
+             //   int currentQuantity = product.getQuantity();
                 int orderedQuantity = detail.getQuantity();
-                int newQuantity = currentQuantity - orderedQuantity;
+            //    int newQuantity = currentQuantity - orderedQuantity;
+
+                // Cập nhật số lượng đã bán cho sản phẩm
+                int currentSold = product.getSold();
+                int newSold = currentSold + orderedQuantity;
+                product.setSold(newSold);
+
 
                 // Cập nhật số lượng mới cho sản phẩm
-                product.setQuantity(newQuantity);
+           //     product.setQuantity(newQuantity);
                 productRepository.save(product);
 
 //                boolean alreadyExists = reviewRepository.existsByOrderDetail_OrderDetailId(detail.getOrderDetailId());
@@ -90,6 +96,11 @@ public class OrderServiceImpl implements IOrderService {
             Product product = productRepository.findById(d.getProductId())
                     .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
 
+            // Kiểm tra xem còn đủ số lượng sản phẩm không
+            if (product.getQuantity() < d.getQuantity()) {
+                throw new AppException(ErrorCode.PRODUCT_OUT_OF_STOCK);
+            }
+
             OrderDetail detail = orderDetailMapper.toOrderDetail(d);
             detail.setOrder(order);
             detail.setProduct(product);
@@ -98,6 +109,14 @@ public class OrderServiceImpl implements IOrderService {
             total += itemTotal;
 
             details.add(detail);
+
+            // Cập nhật số lượng sản phẩm
+            int currentQuantity = product.getQuantity();
+            int orderedQuantity = d.getQuantity();
+            int newQuantity = currentQuantity - orderedQuantity;
+            product.setQuantity(newQuantity);
+            productRepository.save(product);
+
         }
 
         order.setTotalAmount(String.valueOf(total));
