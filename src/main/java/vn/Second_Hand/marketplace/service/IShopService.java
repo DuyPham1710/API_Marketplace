@@ -8,4 +8,5 @@ public interface IShopService {
     List<ShopResponse> getAllShopsExceptCurrentUser();
     String toggleFollow(FollowRequest request);
     List<Integer> getFollowedShopIds();
+    ShopResponse getCurrentUserShop();
 } 

@@ -38,6 +38,40 @@ public class ShopServiceImpl implements IShopService {
     ProductMapper productMapper;
 
     @Override
+    public ShopResponse getCurrentUserShop() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User currentUser = userRepository.findByUsername(username)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        // Lấy số lượng review
+        int totalReviews = reviewRepository.countByProductOwnerId(currentUser.getId());
+
+        // Lấy trung bình rating
+        Double avgRating = reviewRepository.getAverageRatingByProductOwnerId(currentUser.getId());
+        double averageRating = avgRating != null ? avgRating : 0.0;
+        averageRating = Math.round(averageRating * 10.0) / 10.0;
+
+        // Lấy danh sách ID người theo dõi từ bảng Follow
+        List<Integer> followerIds = followRepository.findByShop(currentUser)
+                .stream()
+                .map(follow -> follow.getFollower().getId())
+                .collect(Collectors.toList());
+
+        // Lấy danh sách ID người mà shop đang theo dõi
+        List<Integer> followingIds = followRepository.findByFollower(currentUser)
+                .stream()
+                .map(follow -> follow.getShop().getId())
+                .collect(Collectors.toList());
+
+
+        // Lấy tất cả sản phẩm của shop
+        List<ProductResponse> shopProducts = getAllProductsOfShop(currentUser);
+
+        return shopMapper.toShopResponse(currentUser, totalReviews, averageRating, followerIds, followingIds, shopProducts);
+    }
+
+
+    @Override
     public List<ShopResponse> getAllShopsExceptCurrentUser() {
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();
@@ -61,10 +95,16 @@ public class ShopServiceImpl implements IShopService {
                     .map(follow -> follow.getFollower().getId())
                     .collect(Collectors.toList());
 
+            // Lấy danh sách ID người mà shop đang theo dõi
+            List<Integer> followingIds = followRepository.findByFollower(shop)
+                    .stream()
+                    .map(follow -> follow.getShop().getId())
+                    .collect(Collectors.toList());
+
             // Lấy tất cả sản phẩm của shop
             List<ProductResponse> shopProducts = getAllProductsOfShop(shop);
 
-            return shopMapper.toShopResponse(shop, totalReviews, averageRating, followerIds, shopProducts);
+            return shopMapper.toShopResponse(shop, totalReviews, averageRating, followerIds, followingIds, shopProducts);
         }).collect(Collectors.toList());
     }
 

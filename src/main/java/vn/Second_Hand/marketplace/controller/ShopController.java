@@ -40,4 +40,13 @@ public class ShopController {
                 .data(shopService.getFollowedShopIds())
                 .build();
     }
+
+    @GetMapping("/me")
+    public ApiResponse<ShopResponse> getCurrentUserShop() {
+        return ApiResponse.<ShopResponse>builder()
+                .message("Current user's shop information")
+                .data(shopService.getCurrentUserShop())
+                .build();
+    }
+
 } 

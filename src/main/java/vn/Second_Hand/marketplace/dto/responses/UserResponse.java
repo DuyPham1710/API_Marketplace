@@ -13,6 +13,7 @@ import java.util.Set;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserResponse {
+    int id;
     String fullName;
     String phoneNumber;
     String gender;

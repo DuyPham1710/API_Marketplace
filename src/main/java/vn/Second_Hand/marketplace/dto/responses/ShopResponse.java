@@ -11,11 +11,13 @@ import java.util.List;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ShopResponse {
+    int id;
     String avt;
     String username;
     int totalReviews;
     double averageRating;
     List<Integer> followerIds;
+    List<Integer> followingIds;
     List<ProductResponse> products;
 
 } 

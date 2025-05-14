@@ -10,7 +10,13 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ShopMapper {
+    @Mapping(source = "user.id", target = "id")
     @Mapping(source = "user.avt", target = "avt")
     @Mapping(source = "user.username", target = "username")
-    ShopResponse toShopResponse(User user, int totalReviews, double averageRating, List<Integer> followerIds, List<ProductResponse> products);
+    ShopResponse toShopResponse(User user,
+                                int totalReviews,
+                                double averageRating,
+                                List<Integer> followerIds,
+                                List<Integer> followingIds,
+                                List<ProductResponse> products);
 } 
