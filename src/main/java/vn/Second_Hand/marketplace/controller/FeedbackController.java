@@ -1,8 +1,10 @@
 package vn.Second_Hand.marketplace.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import vn.Second_Hand.marketplace.dto.requests.FeedbackRequest;
 import vn.Second_Hand.marketplace.dto.responses.ApiResponse;
 import vn.Second_Hand.marketplace.dto.responses.FeedbackResponse;
 import vn.Second_Hand.marketplace.entity.Feedback;
@@ -25,6 +27,38 @@ public class FeedbackController {
                 .data(feedbacks)
                 .build();
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/checkFeedback")
+    public ResponseEntity<Boolean> checkFeedbackExists(
+            @RequestParam int orderId,
+            @RequestParam int productId,
+            @RequestParam int buyerId) {
+        boolean exists = feedbackService.checkFeedbackExists(orderId, productId, buyerId);
+        return ResponseEntity.ok(exists);
+    }
+
+    @PostMapping("/saveFeedback")
+    public ResponseEntity<ApiResponse<String>> createFeedback(@RequestBody FeedbackRequest request) {
+        try {
+            feedbackService.saveFeedback(request);
+
+            return ResponseEntity.ok(
+                    ApiResponse.<String>builder()
+                            .code(1000)
+                            .message("Đánh giá đã được lưu")
+                            .data("OK")
+                            .build()
+            );
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.ok(
+                    ApiResponse.<String>builder()
+                            .code(400)
+                            .message("Lỗi: " + e.getMessage())
+                            .data("error")
+                            .build());
+        }
     }
 
 

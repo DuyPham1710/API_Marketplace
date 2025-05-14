@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
     List<Feedback> findByProductProductId(int productId);
-
+    boolean existsByOrderIdAndProduct_ProductIdAndFeedbacker_Id(int orderId, int productId, int feedbackerId);
 }

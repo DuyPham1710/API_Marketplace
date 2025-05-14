@@ -33,6 +33,9 @@ public class Feedback {
     @Column(name = "star", nullable = false)
     int star;
 
+    @Column(name = "order_id", nullable = false)
+    int orderId;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "createdAt", nullable = false)
     Date createdAt;
