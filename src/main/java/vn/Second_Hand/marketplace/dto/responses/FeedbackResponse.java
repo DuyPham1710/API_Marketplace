@@ -13,8 +13,8 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FeedbackResponse {
     int productId;
-    int FeedbackerId;
-    String FeedbackerName;
+    int feedbackerId;
+    String feedbackerName;
     String productName;
     String imageFeedbacker;
     int star;

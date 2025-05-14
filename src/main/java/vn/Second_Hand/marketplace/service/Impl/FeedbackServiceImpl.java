@@ -25,8 +25,8 @@ public class FeedbackServiceImpl implements IFeedbackService {
         // Chuyển đổi sang FeedbackResponse
         return feedbacks.stream().map(feedback -> FeedbackResponse.builder()
                 .productId(feedback.getProduct().getProductId())
-                .FeedbackerId(feedback.getFeedbacker().getId())
-                .FeedbackerName(feedback.getFeedbacker().getUsername())
+                .feedbackerId(feedback.getFeedbacker().getId())
+                .feedbackerName(feedback.getFeedbacker().getUsername())
                 .productName(feedback.getProduct().getProductName())
                 .imageFeedbacker(feedback.getFeedbacker().getAvt())
                 .star(feedback.getStar())
