@@ -16,6 +16,10 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findByCategory_CategoryIdInOrderByCreatedAtDesc(List<Integer> categoryIds);
 
+    @Query("SELECT p FROM Product p WHERE p.category.categoryId IN :categoryIds AND p.ownerId != :ownerId ORDER BY p.createdAt DESC")
+    List<Product> findByCategory_CategoryIdInAndOwnerIdNotOrderByCreatedAtDesc(
+            @Param("categoryIds") List<Integer> categoryIds,
+            @Param("ownerId") int ownerId);
 
     List<Product> findByCategory_CategoryId(int categoryId);
 
@@ -41,8 +45,25 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
                                    @Param("maxPrice") double maxPrice,
                                    @Param("keyword") String keyword);
 
+    @Query("SELECT p FROM Product p " +
+            "WHERE (:categoryId = -1 OR p.category.categoryId = :categoryId) " +
+            "AND (:minPrice < 0 OR CAST(p.currentPrice AS double) BETWEEN :minPrice AND :maxPrice) " +
+            "AND (:keyword = 'nullNull1511' OR LOWER(p.productName) LIKE LOWER(CONCAT('%', :keyword, '%'))) " +
+            "AND p.ownerId != :ownerId")
+    List<Product> findByCategoryIdAndPriceBetweenAndOwnerIdNot(
+            @Param("categoryId") int categoryId,
+            @Param("minPrice") double minPrice,
+            @Param("maxPrice") double maxPrice,
+            @Param("keyword") String keyword,
+            @Param("ownerId") int ownerId);
+
 
     List<Product> findByOwnerIdOrderByCreatedAtDesc(int ownerId);
 
+    @Query("SELECT p FROM Product p WHERE p.ownerId != :ownerId ORDER BY p.createdAt DESC")
+    List<Product> findByOwnerIdNotOrderByCreatedAtDesc(@Param("ownerId") int ownerId);
+
+    @Query("SELECT p FROM Product p WHERE p.ownerId != :ownerId")
+    List<Product> findByOwnerIdNot(@Param("ownerId") int ownerId);
 
 }

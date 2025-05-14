@@ -32,7 +32,7 @@ public class ShopServiceImpl implements IShopService {
     UserRepository userRepository;
     ProductRepository productRepository;
     ProductImageRepository productImageRepository;
-    ReviewRepository reviewRepository;
+    FeedbackRepository feedbackRepository;
     FollowRepository followRepository;
     ShopMapper shopMapper;
     ProductMapper productMapper;
@@ -44,10 +44,10 @@ public class ShopServiceImpl implements IShopService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         // Lấy số lượng review
-        int totalReviews = reviewRepository.countByProductOwnerId(currentUser.getId());
+        int totalReviews = feedbackRepository.countByProductOwnerId(currentUser.getId());
 
         // Lấy trung bình rating
-        Double avgRating = reviewRepository.getAverageRatingByProductOwnerId(currentUser.getId());
+        Double avgRating = feedbackRepository.getAverageRatingByProductOwnerId(currentUser.getId());
         double averageRating = avgRating != null ? avgRating : 0.0;
         averageRating = Math.round(averageRating * 10.0) / 10.0;
 
@@ -82,10 +82,10 @@ public class ShopServiceImpl implements IShopService {
 
         return shops.stream().map(shop -> {
             // Lấy số lượng review
-            int totalReviews = reviewRepository.countByProductOwnerId(shop.getId());
+            int totalReviews = feedbackRepository.countByProductOwnerId(shop.getId());
             
             // Lấy trung bình rating
-            Double avgRating = reviewRepository.getAverageRatingByProductOwnerId(shop.getId());
+            Double avgRating = feedbackRepository.getAverageRatingByProductOwnerId(shop.getId());
             double averageRating = avgRating != null ? avgRating : 0.0;
             averageRating = Math.round(averageRating * 10.0) / 10.0;
             
