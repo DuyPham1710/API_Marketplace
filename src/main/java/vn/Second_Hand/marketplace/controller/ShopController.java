@@ -3,6 +3,8 @@ package vn.Second_Hand.marketplace.controller;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import vn.Second_Hand.marketplace.dto.requests.FollowRequest;
 import vn.Second_Hand.marketplace.dto.responses.ApiResponse;
@@ -20,10 +22,22 @@ public class ShopController {
 
     @GetMapping
     public ApiResponse<List<ShopResponse>> getAllShops() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        List<ShopResponse> shops;
+
+        // Check if user is authenticated and not an anonymous user
+        if (authentication != null && authentication.isAuthenticated()
+                && !authentication.getName().equals("anonymousUser")) {
+            shops = shopService.getAllShopsExceptCurrentUser();
+        } else {
+            shops = shopService.getAllShops();
+        }
+
         return ApiResponse.<List<ShopResponse>>builder()
                 .message("List of all shops")
-                .data(shopService.getAllShopsExceptCurrentUser())
+                .data(shops)
                 .build();
+
     }
 
     @PostMapping("/follow")

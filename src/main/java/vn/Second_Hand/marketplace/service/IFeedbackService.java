@@ -10,4 +10,10 @@ public interface IFeedbackService {
     List<FeedbackResponse> getFeedbackResponsesByProductId(int productId);
     boolean checkFeedbackExists(int orderId, int productId, int buyerId);
     void saveFeedback(FeedbackRequest feedbackRequest);
+
+    // New methods
+    List<FeedbackResponse> getFeedbackGivenByCurrentUser();
+    List<FeedbackResponse> getFeedbackReceivedByCurrentUser();
+    List<FeedbackResponse> getAllUserRelatedFeedback();
+
 }

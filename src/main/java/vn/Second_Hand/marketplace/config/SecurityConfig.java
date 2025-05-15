@@ -32,7 +32,7 @@ public class SecurityConfig {
     private final String[] PUBLIC_ENDPOINTS_POST = {"/auth/register", "/auth/login", "/auth/verify-token", "/cart/add", "/favorites/**", "/products/**", "/orders/**", "/address/**", "/shops/**","/feedbacks/saveFeedback"};
     private final String[] PUBLIC_ENDPOINTS_PUT = {"/auth/verify-account", "/auth/regenerate-otp", "/auth/forgot-password", "/auth/reset-password", "/cart/update", "/users/{userid}", "/orders/**", "/reviews/**", "/address/**"};
    // private final String[] PUBLIC_ENDPOINTS_GET = {"/categories", "/products/category/{maDanhMuc}", "/products/top-10", "/products/last-7-days", "/cart", "/products/search", "/products/{id}", "/products"};
-    private final String[] PUBLIC_ENDPOINTS_GET = {"/users/{userId}", "/categories", "/category/**", "/products/**", "/cart", "/favorites/**", "/filter", "/orders/**", "/cart/{userId}", "/address/**", "/shops/**","/feedbacks/{productId}","/feedbacks/checkFeedback", "/vouchers/**"};
+    private final String[] PUBLIC_ENDPOINTS_GET = {"/users/{userId}", "/categories", "/category/**", "/products/**", "/cart", "/favorites/**", "/filter", "/orders/**", "/cart/{userId}", "/address/**", "/shops/**","/feedbacks/**", "/vouchers/**"};
 
     private final String[] PUBLIC_ENDPOINTS_DELETE = {"/cart/remove"};
 

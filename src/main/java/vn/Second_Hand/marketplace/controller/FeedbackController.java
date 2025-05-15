@@ -61,5 +61,34 @@ public class FeedbackController {
         }
     }
 
+    @GetMapping("/given")
+    public ResponseEntity<ApiResponse<List<FeedbackResponse>>> getFeedbackGivenByCurrentUser() {
+        List<FeedbackResponse> feedbacks = feedbackService.getFeedbackGivenByCurrentUser();
+        ApiResponse<List<FeedbackResponse>> response = ApiResponse.<List<FeedbackResponse>>builder()
+                .message("Feedback given by current user")
+                .data(feedbacks)
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/received")
+    public ResponseEntity<ApiResponse<List<FeedbackResponse>>> getFeedbackReceivedByCurrentUser() {
+        List<FeedbackResponse> feedbacks = feedbackService.getFeedbackReceivedByCurrentUser();
+        ApiResponse<List<FeedbackResponse>> response = ApiResponse.<List<FeedbackResponse>>builder()
+                .message("Feedback received by current user")
+                .data(feedbacks)
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<ApiResponse<List<FeedbackResponse>>> getAllUserRelatedFeedback() {
+        List<FeedbackResponse> feedbacks = feedbackService.getAllUserRelatedFeedback();
+        ApiResponse<List<FeedbackResponse>> response = ApiResponse.<List<FeedbackResponse>>builder()
+                .message("All feedback related to current user")
+                .data(feedbacks)
+                .build();
+        return ResponseEntity.ok(response);
+    }
 
 }

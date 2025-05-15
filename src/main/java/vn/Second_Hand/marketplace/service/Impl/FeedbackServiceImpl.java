@@ -2,6 +2,7 @@ package vn.Second_Hand.marketplace.service.Impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import vn.Second_Hand.marketplace.dto.requests.FeedbackRequest;
 import vn.Second_Hand.marketplace.dto.responses.FeedbackResponse;
@@ -32,17 +33,51 @@ public class FeedbackServiceImpl implements IFeedbackService {
         List<Feedback> feedbacks = feedbackRepository.findByProductProductId(productId);
 
         // Chuyển đổi sang FeedbackResponse
-        return feedbacks.stream().map(feedback -> FeedbackResponse.builder()
-                .productId(feedback.getProduct().getProductId())
-                .feedbackerId(feedback.getFeedbacker().getId())
-                .feedbackerName(feedback.getFeedbacker().getUsername())
-                .productName(feedback.getProduct().getProductName())
-                .imageFeedbacker(feedback.getFeedbacker().getAvt())
-                .star(feedback.getStar())
-                .feedback(feedback.getComment() != null ? feedback.getComment() : "")
-                .createdAt(feedback.getCreatedAt())
-                .build()).collect(Collectors.toList());
+        return mapToFeedbackResponses(feedbacks);
     }
+
+    @Override
+    public List<FeedbackResponse> getFeedbackGivenByCurrentUser() {
+        User currentUser = getCurrentUser();
+        List<Feedback> feedbacks = feedbackRepository.findByFeedbacker(currentUser);
+        return mapToFeedbackResponses(feedbacks);
+    }
+
+    @Override
+    public List<FeedbackResponse> getFeedbackReceivedByCurrentUser() {
+        User currentUser = getCurrentUser();
+        List<Feedback> feedbacks = feedbackRepository.findFeedbackReceivedByUser(currentUser.getId());
+        return mapToFeedbackResponses(feedbacks);
+    }
+
+    @Override
+    public List<FeedbackResponse> getAllUserRelatedFeedback() {
+        User currentUser = getCurrentUser();
+        List<Feedback> feedbacks = feedbackRepository.findAllUserRelatedFeedback(currentUser.getId());
+        return mapToFeedbackResponses(feedbacks);
+    }
+
+    private User getCurrentUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+    }
+
+    private List<FeedbackResponse> mapToFeedbackResponses(List<Feedback> feedbacks) {
+        return feedbacks.stream()
+                .map(feedback -> FeedbackResponse.builder()
+                        .productId(feedback.getProduct().getProductId())
+                        .feedbackerId(feedback.getFeedbacker().getId())
+                        .feedbackerName(feedback.getFeedbacker().getUsername())
+                        .productName(feedback.getProduct().getProductName())
+                        .imageFeedbacker(feedback.getFeedbacker().getAvt())
+                        .star(feedback.getStar())
+                        .feedback(feedback.getComment())
+                        .createdAt(feedback.getCreatedAt())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
 
     @Override
     public boolean checkFeedbackExists(int orderId, int productId, int buyerId) {

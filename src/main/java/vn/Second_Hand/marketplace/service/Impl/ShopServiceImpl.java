@@ -70,6 +70,41 @@ public class ShopServiceImpl implements IShopService {
         return shopMapper.toShopResponse(currentUser, totalReviews, averageRating, followerIds, followingIds, shopProducts);
     }
 
+    @Override
+    public List<ShopResponse> getAllShops() {
+        // Lấy danh sách tất cả các user có sản phẩm (shop)
+        List<User> shops = userRepository.findAll().stream()
+                .filter(user -> !productRepository.findByOwnerIdOrderByCreatedAtDesc(user.getId()).isEmpty())
+                .collect(Collectors.toList());
+
+        return shops.stream().map(shop -> {
+            // Lấy số lượng review
+            int totalReviews = feedbackRepository.countByProductOwnerId(shop.getId());
+
+            // Lấy trung bình rating
+            Double avgRating = feedbackRepository.getAverageRatingByProductOwnerId(shop.getId());
+            double averageRating = avgRating != null ? avgRating : 0.0;
+            averageRating = Math.round(averageRating * 10.0) / 10.0;
+
+            // Lấy danh sách ID người theo dõi từ bảng Follow
+            List<Integer> followerIds = followRepository.findByShop(shop)
+                    .stream()
+                    .map(follow -> follow.getFollower().getId())
+                    .collect(Collectors.toList());
+
+            // Lấy danh sách ID người mà shop đang theo dõi
+            List<Integer> followingIds = followRepository.findByFollower(shop)
+                    .stream()
+                    .map(follow -> follow.getShop().getId())
+                    .collect(Collectors.toList());
+
+            // Lấy tất cả sản phẩm của shop
+            List<ProductResponse> shopProducts = getAllProductsOfShop(shop);
+
+            return shopMapper.toShopResponse(shop, totalReviews, averageRating, followerIds, followingIds, shopProducts);
+        }).collect(Collectors.toList());
+    }
+
 
     @Override
     public List<ShopResponse> getAllShopsExceptCurrentUser() {
