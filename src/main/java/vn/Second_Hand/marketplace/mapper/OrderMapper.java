@@ -21,7 +21,9 @@ public interface OrderMapper {
     @Mapping(target = "createdAt", expression = "java(new java.util.Date())")
     @Mapping(target = "status", constant = "Chờ xác nhận")
     @Mapping(target = "totalAmount", ignore = true)
+    @Mapping(target = "discountAmount", ignore = true)
     @Mapping(target = "buyer", ignore = true)
+    @Mapping(target = "voucher", ignore = true)
     @Mapping(target = "orderDetails", ignore = true)
     Order toOrder(OrderRequest request);
 

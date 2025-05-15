@@ -26,6 +26,7 @@ public enum ErrorCode {
     ORDER_CANNOT_BE_CANCELLED(1121, "Order cannot be cancelled"),
     ADDRESS_NOT_FOUND(1122, "Address not found"),
     PRODUCT_OUT_OF_STOCK(1123, "Product is out of stock"),
+    VOUCHER_NOT_FOUND(1124, "Voucher not found"),
 
 
     ;

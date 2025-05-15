@@ -3,6 +3,7 @@ package vn.Second_Hand.marketplace.service.Impl;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import vn.Second_Hand.marketplace.dto.requests.OrderDetailRequest;
@@ -15,6 +16,7 @@ import vn.Second_Hand.marketplace.mapper.OrderDetailMapper;
 import vn.Second_Hand.marketplace.mapper.OrderMapper;
 import vn.Second_Hand.marketplace.repository.*;
 import vn.Second_Hand.marketplace.service.IOrderService;
+import vn.Second_Hand.marketplace.service.IVoucherService;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,6 +24,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class OrderServiceImpl implements IOrderService {
     OrderRepository orderRepository;
@@ -32,6 +35,7 @@ public class OrderServiceImpl implements IOrderService {
     OrderDetailMapper orderDetailMapper;
     ProductImageRepository productImageRepository;
     ReviewRepository reviewRepository;
+    IVoucherService voucherService;
 
     @Override
     public void updateOrderStatus(int orderId, String status) {
@@ -121,6 +125,19 @@ public class OrderServiceImpl implements IOrderService {
 
         order.setTotalAmount(String.valueOf(total));
         order.setOrderDetails(details);
+
+        // Áp dụng voucher nếu có
+        if (request.getVoucherCode() != null && !request.getVoucherCode().isEmpty()) {
+            try {
+                voucherService.applyVoucherToOrder(order, request.getVoucherCode());
+            } catch (Exception e) {
+                // Log lỗi nhưng vẫn tiếp tục xử lý đơn hàng nếu voucher không hợp lệ
+                log.error("Error applying voucher: {}", e.getMessage());
+            }
+
+
+        }
+
         orderRepository.save(order);
         return "Order placed successfully";
     }

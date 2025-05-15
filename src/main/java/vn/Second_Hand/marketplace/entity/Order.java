@@ -24,9 +24,17 @@ public class Order {
     User buyer;
     Date createdAt;
     String totalAmount;
+
+    String discountAmount;
+
     String address;
     String status;
     String paymentMethod;
+
+    // Thêm mối quan hệ với Voucher
+    @ManyToOne
+    @JoinColumn(name = "voucher_id")
+    Voucher voucher;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     List<OrderDetail> orderDetails;
